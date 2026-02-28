@@ -6,6 +6,9 @@ class Program
     {
         int rows = 200;
         int cols = 200;
+        if (rows != cols) {
+            throw new Exception("Rows and columns must be equal to create a square matrix for the spiral pattern.");
+        }
         int pixelSize = 10;
 
         int[,] matrix = GenerateSpiralMatrix(rows, cols);
@@ -24,36 +27,35 @@ class Program
         int[,] matrix = new int[rows, cols];
         Random rand = new Random();
 
-        int cx = rows / 2;
-        int cy = cols / 2;
+        int cx = (rows / 2)-1;
+        int cy = (cols / 2)-1;
+        // Starting point in the center of the matrix
+        matrix[cx, cy] = 1;
+        int direction = 1;
+        int steps = 1;
 
-        int x = cx;
-        int y = cy;
-
-        int dx = 0;
-        int dy = -1;
-
-        int maxI = Math.Max(rows, cols) * Math.Max(rows, cols);
-
-        for (int i = 0; i < maxI; i++)
+        for (int i = 0; i < rows - 1; i++)
         {
-            if (x >= 0 && x < rows && y >= 0 && y < cols)
+            //coloumns
+            for (int a = 0; a < steps; a++)
             {
-          
+                cy = (cy + (direction * 1)) % cols;
+                matrix[cx, cy] = 1;
             }
-
-            
-            if (x == y || (x < cx && x == -y) || (x > cx && x == 1 - y))
+            //rows
+            for (int a = 0; a < steps; a++)
             {
-                int temp = dx;
-                dx = -dy;
-                dy = temp;
+                cx = (cx + (direction * 1)) % rows;
+                matrix[cx, cy] = 1;
             }
-
-            x += dx;
-            y += dy;
+            steps++;
+            direction = direction * -1;
         }
-
+        for (int a = 0; a < steps-1; a++)
+        {
+            cy = (cy + (direction * 1)) % cols;
+            matrix[cx, cy] = 1;
+        }
         return matrix;
     }
 
