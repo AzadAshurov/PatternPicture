@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 class Program
 {
@@ -38,36 +39,32 @@ class Program
         {
             if (x < 0 || x >= matrix.GetLength(0) ||
                 y < 0 || y >= matrix.GetLength(1))
-                return 0; // считаем, что за пределами — нули
+                return 0; 
 
             return matrix[x, y];
         } 
-
+        int dl = 0;
         for (int i = 0; i < rows - 1; i++)
         {
             //coloumns
             for (int a = 0; a < steps; a++)
             {
                 cy = (cy + (direction * 1)) % cols;
-                if (GetSafe(matrix, cx - 1, cy) +
-     GetSafe(matrix, cx + 1, cy) +
-     GetSafe(matrix, cx, cy - 1) +
-     GetSafe(matrix, cx, cy + 1) == 1)
+                if (dl%9<5)
                 {
                     matrix[cx, cy] = 1;
                 }
+                dl++;
             }
             //rows
             for (int a = 0; a < steps; a++)
             {
                 cx = (cx + (direction * 1)) % rows;
-                if (GetSafe(matrix, cx - 1, cy) +
-      GetSafe(matrix, cx + 1, cy) +
-      GetSafe(matrix, cx, cy - 1) +
-      GetSafe(matrix, cx, cy + 1) == 1)
+                if (dl % 9 < 5)
                 {
                     matrix[cx, cy] = 1;
                 }
+                dl++;
             }
             steps++;
             direction = direction * -1;
@@ -75,13 +72,11 @@ class Program
         for (int a = 0; a < steps-1; a++)
         {
             cy = (cy + (direction * 1)) % cols;
-            if (GetSafe(matrix, cx - 1, cy) +
-       GetSafe(matrix, cx + 1, cy) +
-       GetSafe(matrix, cx, cy - 1) +
-       GetSafe(matrix, cx, cy + 1) == 1)
+            if (dl % 9 < 5)
             {
                 matrix[cx, cy] = 1;
             }
+            dl++;
         }
         return matrix;
     }
@@ -108,3 +103,10 @@ class Program
         return image;
     }
 }
+
+
+
+//(GetSafe(matrix, cx - 1, cy) +
+//      GetSafe(matrix, cx + 1, cy) +
+//      GetSafe(matrix, cx, cy - 1) +
+//      GetSafe(matrix, cx, cy + 1) == 1)
